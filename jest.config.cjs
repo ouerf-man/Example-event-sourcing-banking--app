@@ -7,4 +7,5 @@ module.exports = {
   moduleNameMapper: {
     '^@prisma/client$': '<rootDir>/src/server/infrastructure/__mocks__/prismaClient.ts',
   },
+  setupFilesAfterEnv: ["<rootDir>/src/server/infrastructure/__mocks__/prismaClient.ts"]
 };

@@ -20,9 +20,13 @@ export class EventRepository {
   }
 
   async getEvents(accountId: string): Promise<Event[]> {
+    const accout = await prisma.account.findUnique({ where: { id: accountId }})
+    if (!accout) {
+      throw new Error("Account not found")
+    }
     return prisma.event.findMany({
       where: { accountId },
       orderBy: { sequence: 'asc' },
-    });
+    }) || [];
   }
 }

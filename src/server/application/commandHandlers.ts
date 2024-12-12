@@ -1,9 +1,10 @@
+import { PrismaClient } from '@prisma/client';
 import { validateIBAN } from '../../lib/utils';
 import { DepositCommand, WithdrawCommand, TransferCommand, EVENT_TYPES } from '../domain';
-import { prisma, EventRepository } from '../infrastructure';
+import { EventRepository } from '../infrastructure';
 
 export class CommandHandlers {
-  constructor(private eventRepo: EventRepository) {}
+  constructor(private eventRepo: EventRepository, private prisma: PrismaClient) {}
 
   async handleDeposit(command: DepositCommand): Promise<void> {
     // Create Deposit Event
@@ -19,7 +20,7 @@ export class CommandHandlers {
 
   async handleWithdraw(command: WithdrawCommand): Promise<void> {
     // Load current balance
-    const account = await prisma.account.findUnique({
+    const account = await this.prisma.account.findUnique({
       where: { id: command.accountId },
     });
 
@@ -45,7 +46,7 @@ export class CommandHandlers {
     }
 
     // Load sender account
-    const sender = await prisma.account.findUnique({
+    const sender = await this.prisma.account.findUnique({
       where: { id: command.fromAccountId },
     });
 
@@ -59,7 +60,7 @@ export class CommandHandlers {
       id: crypto.randomUUID(),
       accountId: command.fromAccountId,
       type: EVENT_TYPES.TRANSFER,
-      payload: { amount: -command.amount, toIban: command.toIban },
+      payload: { amount: command.amount, toIban: command.toIban },
     };
 
     // Append both events

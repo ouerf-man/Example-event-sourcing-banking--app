@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { CommandHandlers } from '@/server/application';
-import { EventRepository } from '@/server/infrastructure';
+import { EventRepository, prisma } from '@/server/infrastructure';
 
 export async function POST(request: Request) {
   const { accountId, amount } = await request.json();
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   }
 
   const eventRepo = new EventRepository();
-  const commandHandlers = new CommandHandlers(eventRepo);
+  const commandHandlers = new CommandHandlers(eventRepo, prisma);
 
 
   try {
