@@ -2,7 +2,7 @@ export interface Event {
     id: string;
     accountId: string;
     type: string;
-    payload: object;
+    payload: any;
     createdAt: Date;
     sequence: number;
   }
