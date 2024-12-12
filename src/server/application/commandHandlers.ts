@@ -61,9 +61,6 @@ export class CommandHandlers {
       throw new Error('Sender account not found');
     }
 
-    if (sender.balance < command.amount) {
-      throw new Error('Insufficient funds');
-    }
 
     // Create Transfer Event for Sender
     const transferOutEvent = {
