@@ -1,0 +1,30 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Account {
+  id        String   @id @default(uuid())
+  iban      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events    Event[]
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  accountId   String
+  type        String
+  payload     Json
+  createdAt   DateTime @default(now())
+  sequence    Int
+
+  account     Account  @relation(fields: [accountId], references: [id])
+
+  @@index([accountId, sequence], name: "account_sequence_idx")
+}
