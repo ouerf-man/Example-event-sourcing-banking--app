@@ -20,7 +20,7 @@ export interface ApiResponse<T> {
         ?.includes('application/json');
   
       const data = isJson ? await response.json() : null;
-  
+      console.log(response)
       if (!response.ok) {
         // Handle HTTP errors
         return {
@@ -32,7 +32,6 @@ export interface ApiResponse<T> {
       return { data: data as T };
     } catch (error) {
       // Handle network or parsing errors
-      console.log(error)
       return {
         data: {} as T,
         error: (error as Error).message || 'An unexpected error occurred',

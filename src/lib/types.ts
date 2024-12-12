@@ -40,3 +40,18 @@ export interface WithdrawalResponse {
     date: string;
     balanceAfter: number;
 }
+
+export interface TransferRequest {
+    fromAccountId: string;
+    toIban: string;
+    amount: number;
+}
+
+export interface TransferResponse {
+    transactionId: string;
+    accountId: string;
+    amount: number;
+    type: 'Transfer';
+    date: string;
+    balanceAfter: number;
+}

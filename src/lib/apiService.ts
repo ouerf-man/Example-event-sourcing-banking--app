@@ -6,6 +6,8 @@ import {
   DepositResponse,
   GetAccountBalanceResponse,
   GetAccountStatementResponse,
+  TransferRequest,
+  TransferResponse,
   WithdrawalRequest,
   WithdrawalResponse,
 } from './types';
@@ -51,6 +53,18 @@ export const makeWithdrawal = (
 ): Promise<ApiResponse<WithdrawalResponse>> => {
   return apiClient<WithdrawalResponse>(
     `${BASE_URL}/withdraw`,
+    {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }
+  );
+};
+
+export const makeTransfer = (
+  request: TransferRequest
+): Promise<ApiResponse<TransferResponse>> => {
+  return apiClient<TransferResponse>(
+    `${BASE_URL}/transfert`,
     {
       method: 'POST',
       body: JSON.stringify(request),

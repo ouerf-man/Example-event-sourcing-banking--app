@@ -1,3 +1,4 @@
+import { validateIBAN } from '../../lib/utils';
 import { DepositCommand, WithdrawCommand, TransferCommand, EVENT_TYPES } from '../domain';
 import { prisma, EventRepository } from '../infrastructure';
 
@@ -39,7 +40,7 @@ export class CommandHandlers {
 
   async handleTransfer(command: TransferCommand): Promise<void> {
     // Validate IBAN
-    if (!this.validateIBAN(command.toIban)) {
+    if (!validateIBAN(command.toIban)) {
       throw new Error('Invalid IBAN');
     }
 
@@ -65,9 +66,5 @@ export class CommandHandlers {
     await this.eventRepo.append(transferOutEvent);
   }
 
-  validateIBAN(iban: string): boolean {
-    // Simple regex for IBAN validation (can be improved)
-    const ibanRegex = /^[A-Z]{2}\d{2}[A-Z0-9]{1,30}$/;
-    return ibanRegex.test(iban);
-  }
+  
 }

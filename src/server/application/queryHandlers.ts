@@ -42,7 +42,7 @@ export class QueryHandlers {
               date: event.createdAt.toISOString(),
               amount: event.payload.amount,
               balance,
-              type: "Withdraw"
+              type: "Transfer"
             } as AccountStatementItem;
           default:
             return null;
