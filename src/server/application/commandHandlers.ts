@@ -43,15 +43,6 @@ export class CommandHandlers {
       throw new Error('Invalid IBAN');
     }
 
-    // Find recipient account
-    const recipient = await prisma.account.findUnique({
-      where: { iban: command.toIban },
-    });
-
-    if (!recipient) {
-      throw new Error('Recipient account not found');
-    }
-
     // Load sender account
     const sender = await prisma.account.findUnique({
       where: { id: command.fromAccountId },
@@ -70,17 +61,8 @@ export class CommandHandlers {
       payload: { amount: -command.amount, toIban: command.toIban },
     };
 
-    // Create Transfer Event for Recipient
-    const transferInEvent = {
-      id: crypto.randomUUID(),
-      accountId: recipient.id,
-      type: EVENT_TYPES.TRANSFER,
-      payload: { amount: command.amount, fromIban: sender.iban },
-    };
-
     // Append both events
     await this.eventRepo.append(transferOutEvent);
-    await this.eventRepo.append(transferInEvent);
   }
 
   validateIBAN(iban: string): boolean {
