@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Application README
 
-## Getting Started
+## Overview
+This application is a banking system built using **Event Sourcing** and **CQRS (Command Query Responsibility Segregation)** patterns. It handles deposits, withdrawals, and account statements.
 
-First, run the development server:
+### Event Sourcing
+- **Event Sourcing** ensures that all changes to the application's state are stored as a sequence of immutable events.
+- Each user action (e.g., deposit, withdrawal) creates an event that is stored in the event store. This allows complete reconstruction of the application's state by replaying the events.
+- In the future, **projections** can be added to facilitate complex queries (e.g., aggregating account balances).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### CQRS
+- **CQRS** separates the write model (commands) and the read model (queries).
+- **Commands** handle the business logic (e.g., creating events for deposits and withdrawals).
+- **Queries** provide efficient data retrieval without interfering with the write logic.
+
+---
+
+## Folder Structure
+
+```
+/src
+  /app                # Next.js frontend application
+    /api              # API routes
+    /deposit          # UI for deposits
+    /withdraw         # UI for withdrawals
+    /statement        # UI for account statements
+  /components         # Reusable React components
+  /hooks              # React hooks for API interaction
+  /lib                # Utility types
+  /prisma             # Database schema and seed scripts
+  /server             # Backend logic for CQRS and Event Sourcing
+    /application      # Command and query handlers
+    /domain           # Domain models and events
+    /infrastructure   # Database and event storage logic
+/tests                # Unit and integration tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Key Directories
+- **`/server/application`**: Implements the CQRS logic with command and query handlers.
+- **`/server/domain`**: Defines the domain entities and events (e.g., DepositEvent, WithdrawEvent).
+- **`/server/infrastructure`**: Contains repositories and data storage logic using Prisma.
+- **`/prisma`**: Database schema definition and seed script.
+- **`/app`**: Frontend logic implemented using Next.js.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Starting the Application Locally
 
-## Learn More
+### Prerequisites
+1. **Node.js** and **npm/yarn** installed.
+2. **Docker** installed to run the PostgreSQL database.
 
-To learn more about Next.js, take a look at the following resources:
+### Steps
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Set up environment variables:**
+   - Copy the `.env.example` file to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Update the `.env` file with your configuration (e.g., database URL).
 
-## Deploy on Vercel
+4. **Start the PostgreSQL database:**
+   ```bash
+   docker-compose up -d
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Run database migrations:**
+   ```bash
+   npx prisma migrate dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6. **Seed the database (optional):**
+   ```bash
+   npx prisma db seed
+   ```
+
+7. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:3000`.
+
+8. **Run tests (optional):**
+   ```bash
+   npm run test
+   ```
+
+---
+
+## Future Enhancements
+- **Projections:** Create read-optimized views (e.g., aggregated balances) from events.
+- **Pagination:** Improve the performance of large account statements.
+- **GraphQL Support:** Provide an additional API layer for flexibility.
+
+---
+
+## Contributing
+Feel free to open issues or submit pull requests to improve the application.
+

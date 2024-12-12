@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       const statement = await queryHandlers.handleGetAccountStatement(query);
   
       return NextResponse.json({ statement }, { status: 200 });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error fetching account statement:', error);
       return NextResponse.json(
         { error: 'Internal Server Error' },

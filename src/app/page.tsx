@@ -12,13 +12,13 @@ const DashboardPage: React.FC = async () => {
         <Typography color='black' variant="h5">Current Balance: ${response.data.balance}</Typography>
       </Layout>
     );
-  } catch (err: any) {
+  } catch (err) {
     return (
       <Layout>
         <Typography variant="h4" gutterBottom>
           Dashboard
         </Typography>
-        <Alert severity="error">{err.message || 'Failed to fetch balance.'}</Alert>
+        <Alert severity="error">{'Failed to fetch balance.'}</Alert>
       </Layout>
     );
   }

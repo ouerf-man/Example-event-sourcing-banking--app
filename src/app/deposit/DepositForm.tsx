@@ -9,12 +9,12 @@ type StatementsTableProps = {
   accountId: string;
 }
 
-export const DepositForm: React.FC<StatementsTableProps> = ({accountId}) => {
+export const DepositForm: React.FC<StatementsTableProps> = ({ accountId }) => {
   const [amount, setAmount] = useState<string>('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState<string>('');
 
-  const { deposit, loading, error } = useDeposit();
+  const { deposit } = useDeposit();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,12 +38,10 @@ export const DepositForm: React.FC<StatementsTableProps> = ({accountId}) => {
       setStatus('success');
       setMessage('Deposit successful!');
       setAmount('');
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        setMessage(err.response.data.error);
-      } else {
-        setMessage(err.message || 'An unexpected error occurred.');
-      }
+    } catch (err: unknown) {
+      console.error(err)
+      setMessage('An unexpected error occurred.');
+
       setStatus('error');
     }
   };

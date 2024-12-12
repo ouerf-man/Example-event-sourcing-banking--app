@@ -60,6 +60,7 @@ export const StatementsTable: React.FC<StatementsTableProps> = async ({ accountI
   }
 
   catch (err) {
+    console.error(err)
     return (
       <Box my={4}>
         <Typography color="error">Error occurred</Typography>

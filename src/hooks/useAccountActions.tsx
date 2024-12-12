@@ -1,6 +1,6 @@
 
 
-import { DepositResponse, WithdrawalRequest, WithdrawalResponse } from "../lib/types";
+import { WithdrawalRequest } from "../lib/types";
 import { DepositRequest } from "../lib/types";
 import { makeDeposit, makeWithdrawal } from "../lib/apiService";
 import { toast } from 'react-toastify';

@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   try {
     await commandHandlers.handleWithdraw({ accountId, amount });
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error }, { status: 400 });
   }
 }

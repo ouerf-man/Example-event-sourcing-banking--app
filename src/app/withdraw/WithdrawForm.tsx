@@ -12,7 +12,7 @@ export const WithdrawForm: React.FC<WithdrawFormProps> = ({accountId}) => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState<string>('');
 
-  const { withdraw, loading, error } = useMakeWithdrawal();
+  const { withdraw } = useMakeWithdrawal();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,12 +36,10 @@ export const WithdrawForm: React.FC<WithdrawFormProps> = ({accountId}) => {
       setStatus('success');
       setMessage('Withdraw successful!');
       setAmount('');
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        setMessage(err.response.data.error);
-      } else {
-        setMessage(err.message || 'An unexpected error occurred.');
-      }
+    } catch (err: unknown) {
+      console.error(err)
+      setMessage('An unexpected error occurred.');
+
       setStatus('error');
     }
   };

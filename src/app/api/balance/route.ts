@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { GetAccountBalanceQuery, QueryHandlers } from "@/server/application";
 import { EventRepository } from "@/server/infrastructure";
-import Error from "next/error";
 
 export async function GET(request: NextRequest) {
     try {

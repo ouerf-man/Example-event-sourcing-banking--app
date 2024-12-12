@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Layout } from '@/components';
+import { Layout } from '@/components';
 import { StatementsTable } from './StatementsTable';
 
 const StatementPage: React.FC = () => {
