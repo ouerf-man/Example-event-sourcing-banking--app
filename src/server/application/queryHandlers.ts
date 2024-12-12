@@ -66,10 +66,7 @@ export class QueryHandlers {
         case 'Withdraw':
           balance -= event.payload.amount;
           break;
-        case 'TransferOut':
-          balance -= event.payload.amount;
-          break;
-        case 'TransferIn':
+        case 'Transfer':
           balance += event.payload.amount;
           break;
         default:
