@@ -26,10 +26,6 @@ export class CommandHandlers {
       throw new Error('Account not found');
     }
 
-    if (account.balance < command.amount) {
-      throw new Error('Insufficient funds');
-    }
-
     // Create Withdraw Event
     const event = {
       id: crypto.randomUUID(),
