@@ -3,7 +3,7 @@ import {Typography, Alert, Layout} from '@/components';
 import { getAccountBalance } from '../lib';
 
 const DashboardPage: React.FC = async () => {
-  const accountId = "1";
+  const accountId = process.env.TEST_ACCOUNT_ID || "1";
 
   try {
     const response = await getAccountBalance(accountId);
@@ -13,6 +13,7 @@ const DashboardPage: React.FC = async () => {
       </Layout>
     );
   } catch (err) {
+    console.error(err);
     return (
       <Layout>
         <Typography variant="h4" gutterBottom>
